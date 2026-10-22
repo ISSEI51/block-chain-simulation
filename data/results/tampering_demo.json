@@ -1,0 +1,40 @@
+{
+  "difficulty": 4,
+  "blocks": 5,
+  "target_block": 2,
+  "original_valid": true,
+  "original_unchanged": true,
+  "scenarios": [
+    {
+      "scenario": "1. payload を書き換えるだけ",
+      "detected": true,
+      "errors": [
+        "ブロック#2: トランザクション b8155514e6c6… の内容が transaction_id と一致しません",
+        "ブロック#2: 保存された hash が内容から再計算した値と一致しません"
+      ]
+    },
+    {
+      "scenario": "2. transaction_id と hash も再計算（PoW なし）",
+      "detected": true,
+      "errors": [
+        "ブロック#2: hash が difficulty=4 の PoW 条件を満たしません",
+        "ブロック#3: previous_hash が前ブロックのハッシュと一致しません"
+      ]
+    },
+    {
+      "scenario": "3. 改ざんしたブロックだけ PoW をやり直す",
+      "detected": true,
+      "errors": [
+        "ブロック#3: previous_hash が前ブロックのハッシュと一致しません"
+      ]
+    },
+    {
+      "scenario": "4. 改ざんしたブロック以降をすべて PoW でやり直す",
+      "detected": false,
+      "errors": [],
+      "remined_blocks": 4,
+      "remine_attempts": 267705,
+      "expected_attempts": 262144
+    }
+  ]
+}

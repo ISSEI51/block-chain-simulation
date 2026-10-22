@@ -1,0 +1,21 @@
+# 環境変数（規約: .env はコミットしない）
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+build/
+dist/
+
+# ツールのキャッシュ
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# CLI が作るチェーンの保存ファイル（実験結果 data/results/ はコミットする）
+data/*.json
+
+.DS_Store
