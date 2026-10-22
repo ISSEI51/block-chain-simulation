@@ -1,0 +1,45 @@
+# `just ci` と同じ3ジョブ（lint / typecheck / test）を実行する
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: just
+      - run: just lint
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: just
+      - run: just typecheck
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      # 一方の Python バージョンが失敗しても、もう一方の結果を確認できるように止めない
+      fail-fast: false
+      matrix:
+        python-version: ["3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: just
+      - run: just test
